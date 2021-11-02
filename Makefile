@@ -28,6 +28,18 @@ ifeq (${MODEL}, n0100)
 endif
 
 ifeq (${MODEL}, n0110)
+  ifeq ($(filter reader,$(apps_list)),)
+  	$(warning reader app included, removing it because I don't like it )
+  	EPSILON_APPS := $(filter-out reader,$(EPSILON_APPS))
+  endif
+  ifneq ($(words $(EPSILON_I18N)), 1)
+  	$(warning Only use 1 language on n0110, defaulting to en. )
+  	EPSILON_I18N := en
+  endif
+endif
+
+
+ifeq (${MODEL}, n0110)
   apps_list = ${EPSILON_APPS}
 else
   apps_list = $(foreach i, ${EPSILON_APPS}, $(if $(filter external, $(i)),,$(i)))
